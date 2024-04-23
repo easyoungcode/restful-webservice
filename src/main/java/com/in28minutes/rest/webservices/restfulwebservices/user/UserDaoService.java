@@ -13,6 +13,8 @@ public class UserDaoService {
 
     private static List<User> users = new ArrayList<>();
 
+    private static Long usersCount = 3l;
+
     static {
         users.add(new User(1l,"Adam",LocalDate.now().minusYears(30)));
         users.add(new User(2l,"Eve",LocalDate.now().minusYears(25)));
@@ -28,8 +30,11 @@ public class UserDaoService {
         return users.stream().filter(predicate).findFirst().get();
     }
 
-    //public User save(User user) {
-
-    //public User findOne(int id) {
+    //public User save(User user)
+    public User save(User user) {
+        user.setId(++usersCount);
+        users.add(user);
+        return user;
+    }
 
 }
