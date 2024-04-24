@@ -2,13 +2,18 @@ package com.in28minutes.rest.webservices.restfulwebservices.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class User {
 
 
     private Long id;
+    @Size(min = 2, message = "Name should have atleast 2 characters")
     private String name;
+    
+    @Past(message = "BirthDate should be in past")   // 과거 날짜만 되도록 설정
     private LocalDate birthday;
 
 

@@ -1,5 +1,6 @@
 package com.in28minutes.rest.webservices.restfulwebservices.user;
 
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -42,9 +43,11 @@ public class UserResource {
         userDaoService.deleteById(id);
     }
 
-    /** POST /users */
+    /** POST /users
+     * Valid로 유효성 검증
+     * */
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         User saveUser = userDaoService.save(user);
         URI location = ServletUriComponentsBuilder
                         .fromCurrentRequest()
