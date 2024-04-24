@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,19 +21,28 @@ public class UserResource {
         this.userDaoService = userDaoService;
     }
 
-    // GET /users
+    /** GET /users  */
     @GetMapping("/users")
     public List<User> retrieveUsers() {
         return userDaoService.findAll();
     }
  
-    // GET /users/{id}, 특정 user 정보 조회
+    /** GET /users/{id}, 특정 user 정보 조회  */
     @GetMapping("/users/{id}")
     public User retrieveUsers(@PathVariable Long id) {
-        return userDaoService.findOne(id);
+        User user = userDaoService.findOne(id);
+
+        if(user == null) throw new UserNotFoundException("id: "+id);
+        return user;
     }
 
-    // POST /users
+    /** DELETE /users/{id}, 특정 user 정보 삭제  */
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userDaoService.deleteById(id);
+    }
+
+    /** POST /users */
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User saveUser = userDaoService.save(user);
